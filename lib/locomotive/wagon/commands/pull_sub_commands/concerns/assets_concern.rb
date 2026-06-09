@@ -54,7 +54,9 @@ module Locomotive::Wagon
         # required because we need to make sure we use the content of file from its start
         binary_file.rewind
 
-        return filepath if FileUtils.compare_stream(binary_file, File.open(filepath))
+        File.open(filepath, 'rb') do |existing_file|
+          return filepath if FileUtils.compare_stream(binary_file, existing_file)
+        end
 
         folder, ext = File.dirname(filepath), File.extname(filepath)
         basename = File.basename(filepath, ext)
@@ -78,7 +80,10 @@ module Locomotive::Wagon
       if binary = get_asset_binary(url)
         FileUtils.mkdir_p(File.dirname(filepath))
 
-        (binary_file = Tempfile.new(File.basename(filepath)).binmode).write(binary)
+        binary_file = Tempfile.new(File.basename(filepath))
+        binary_file.binmode
+        binary_file.write(binary)
+        binary_file.rewind
 
         find_unique_filepath(filepath, binary_file).tap do |filepath|
           File.open(filepath, 'wb') { |f| f.write(binary) }
