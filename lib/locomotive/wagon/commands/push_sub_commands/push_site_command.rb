@@ -28,6 +28,18 @@ module Locomotive::Wagon
 
       if _attributes.present?
         api_client.current_site.update(_attributes)
+
+        # sections_content is not a `localized: true` attribute in the engine SiteForm,
+        # so the update above only writes it to the default locale. Push the remaining
+        # locales explicitly (symmetric with PullSiteCommand#add_other_locale).
+        if with_data?
+          (locales - [default_locale]).each do |locale|
+            content = decorated_entity.__with_locale__(locale) do
+              decorated_entity.sections_content
+            end
+            api_client.current_site.update({ sections_content: content }, locale) if content.present?
+          end
+        end
       else
         raise SkipPersistingException.new
       end
