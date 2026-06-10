@@ -1,0 +1,11 @@
+name: Articles
+description: Covers the localized order_by sync path (order_by is a localized field)
+slug: articles
+order_by: title
+label_field_name: title
+fields:
+- title:
+    localized: true
+- body:
+    type: text
+    localized: true

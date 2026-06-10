@@ -101,6 +101,57 @@ describe Locomotive::Wagon::ContentEntryDecorator do
 
   end
 
+  describe '#to_hash with the position (re-deploy ordering)' do
+
+    let(:field)       { instance_double('Field', name: 'title', type: 'string') }
+    let(:fields)      { instance_double('Fields', by_name: field, no_associations: [field]) }
+    let(:attributes)  { { title: 'Hello world' } }
+
+    # exercise the real `_position` reader (__getobj__[:_position]) instead of stubbing it
+    before { allow(entry).to receive(:[]).with(:_position).and_return(3) }
+
+    context 'when persist_content is true' do
+      let(:decorator) { described_class.new(entry, 'en', '.', nil, persist_content: true) }
+
+      it 'sends _position so a re-deploy can reorder the entries' do
+        expect(decorator.to_hash).to include(_position: 3)
+      end
+
+      context 'and the entry has only the default attributes' do
+        let(:attributes) { { title: nil } }
+
+        it 'still sends _position so the order is applied' do
+          expect(decorator.to_hash).to include(_position: 3)
+        end
+      end
+
+      context 'and the position is zero' do
+        before { allow(entry).to receive(:[]).with(:_position).and_return(0) }
+
+        it 'keeps position 0, which is a valid position' do
+          expect(decorator.to_hash).to include(_position: 0)
+        end
+      end
+
+      context 'and the position is nil' do
+        before { allow(entry).to receive(:[]).with(:_position).and_return(nil) }
+
+        it 'omits _position instead of sending nil' do
+          expect(decorator.to_hash).not_to have_key(:_position)
+        end
+      end
+    end
+
+    context 'when persist_content is false (default)' do
+      let(:decorator) { described_class.new(entry, 'en', '.', nil, persist_content: false) }
+
+      it 'omits _position to protect a back-office reordering' do
+        expect(decorator.to_hash).not_to have_key(:_position)
+      end
+    end
+
+  end
+
   class SimpleAssetPusher
     attr_reader :assets
     def persist(asset); (@assets ||= []).push(asset); 'done'; end

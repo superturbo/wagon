@@ -11,7 +11,7 @@ describe Locomotive::Wagon::SyncCommand do
 
   before { Locomotive::Steam::Adapters::Filesystem::SimpleCacheStore.new.clear }
 
-  before { VCR.insert_cassette 'sync', match_requests_on: [:uri, :method, :query, :body, :headers] }
+  before { VCR.insert_cassette 'sync' }
   after  { VCR.eject_cassette }
 
   let(:env)       { 'hosting-sync' }
@@ -41,6 +41,19 @@ describe Locomotive::Wagon::SyncCommand do
       %w(fr nb en).each do |locale|
         expect(File.exist?(File.join(data_path, 'pages', locale, 'index.json'))).to eq true
       end
+    end
+
+    it 'keeps per-locale values when the content type is ordered by a localized field' do
+      is_expected.not_to eq nil
+
+      articles_file = File.join(data_path, 'content_entries', 'articles.yml')
+      expect(File.exist?(articles_file)).to eq true
+
+      # the localized order_by path paginates by the default locale, then fetches the
+      # translations by id; assert each entry kept its own fr value (no cross-entry mixup)
+      by_label = YAML.load_file(articles_file).each_with_object({}) { |entry, hash| hash.merge!(entry) }
+      expect(by_label.dig('Apple', 'title', 'fr')).to eq('Zorro')
+      expect(by_label.dig('Zulu',  'title', 'fr')).to eq('Alpha')
     end
 
   end

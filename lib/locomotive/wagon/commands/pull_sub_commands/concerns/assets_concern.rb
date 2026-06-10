@@ -1,5 +1,4 @@
 require 'tempfile'
-require 'benchmark'
 
 require_relative '../../../tools/yaml_ext.rb'
 

@@ -28,7 +28,7 @@ module Locomotive::Wagon
       elsif only_relationships?
         ContentEntryWithOnlyRelationshipsDecorator.new(entity, default_locale, path, content_assets_pusher)
       else
-        ContentEntryDecorator.new(entity, default_locale, path, content_assets_pusher)
+        ContentEntryDecorator.new(entity, default_locale, path, content_assets_pusher, persist_content: persist_content?)
       end
     end
 
@@ -61,6 +61,12 @@ module Locomotive::Wagon
     end
 
     private
+
+    # Mirror PushPagesCommand: only overwrite the stored order on a full-data push or
+    # when the remote site has not been edited in the back-office.
+    def persist_content?
+      with_data? || !remote_site.edited?
+    end
 
     def other_locales
       return [] if current_site.locales.blank?

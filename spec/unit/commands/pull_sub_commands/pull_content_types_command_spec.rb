@@ -36,6 +36,21 @@ describe Locomotive::Wagon::PullContentTypesCommand do
 
     end
 
+    context 'three or more options in a scrambled order' do
+
+      let(:locales) { ['en'] }
+      let(:options) do
+        [
+          { 'id' => '2', 'name' => { 'en' => 'beta'  }, 'position' => 1 },
+          { 'id' => '1', 'name' => { 'en' => 'alpha' }, 'position' => 0 },
+          { 'id' => '3', 'name' => { 'en' => 'gamma' }, 'position' => 2 }
+        ]
+      end
+
+      it { is_expected.to eq(['alpha', 'beta', 'gamma']) }
+
+    end
+
   end
 
 end

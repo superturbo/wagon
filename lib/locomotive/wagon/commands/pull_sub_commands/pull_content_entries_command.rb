@@ -10,7 +10,7 @@ module Locomotive::Wagon
         instrument :writing, label: content_type.name
 
         fetch_content_entries(content_type) do |entries|
-          # entries is a list of max 10 elements (pagination)
+          # entries: one page of content entries (as paginated by the API)
           write_content_entries(content_type, entries)
         end
 
@@ -60,24 +60,78 @@ module Locomotive::Wagon
     end
 
     def fetch_content_entries(content_type, &block)
+      if localized_order_by?(content_type)
+        fetch_content_entries_by_default_locale(content_type, &block)
+      else
+        fetch_content_entries_by_shared_page(content_type, &block)
+      end
+    end
+
+    def fetch_content_entries_by_shared_page(content_type, &block)
       page = 1
       while page do
         entries, _next_page = {}, nil
 
         locales.each do |locale|
-          next if locale != default_locale && content_type.localized_names.empty?
+          next if locale != default_locale && content_type.attributes['localized_names'].empty?
 
-          (_entries = api_client.content_entries(content_type).all(nil, { page: page, order_by: 'created_at asc' }, locale)).each do |entry|
+          (_entries = fetch_content_entries_page(content_type, page, locale)).each do |entry|
             (entries[entry._id] ||= {})[locale] = entry
           end
 
           _next_page = _entries._next_page if _next_page.nil?
         end
 
-        yield(entries.values)
+        block.call(entries.values)
 
         page = _next_page
       end
+    end
+
+    def fetch_content_entries_by_default_locale(content_type, &block)
+      page = 1
+      while page do
+        entries = {}
+        default_entries = fetch_content_entries_page(content_type, page, default_locale)
+
+        default_entries.each do |entry|
+          (entries[entry._id] ||= {})[default_locale] = entry
+        end
+
+        # Localized order fields can put each locale's page in a different ID set.
+        fetch_translated_content_entries(content_type, entries)
+
+        block.call(entries.values)
+
+        page = default_entries._next_page
+      end
+    end
+
+    def fetch_translated_content_entries(content_type, entries)
+      entry_ids = entries.keys
+      return if entry_ids.empty?
+
+      (locales - [default_locale]).each do |locale|
+        translated_entries = api_client.content_entries(content_type).all({ '_id' => { '$in' => entry_ids } }, { page: 1, per_page: entry_ids.size }, locale)
+
+        translated_entries.each do |entry|
+          entries[entry._id][locale] = entry if entries[entry._id]
+        end
+      end
+    end
+
+    def fetch_content_entries_page(content_type, page, locale)
+      api_client.content_entries(content_type).all(nil, { page: page, order_by: content_entries_order_by(content_type) }, locale)
+    end
+
+    def localized_order_by?(content_type)
+      locales.size > 1 && content_type.attributes['localized_names'].include?(content_type.attributes['order_by'])
+    end
+
+    def content_entries_order_by(content_type)
+      field     = content_type.attributes['order_by'].presence || 'created_at'
+      direction = content_type.attributes['order_direction'].presence || 'asc'
+      "#{field} #{direction}"
     end
 
     def value_of(content_type, entry, locale, name)

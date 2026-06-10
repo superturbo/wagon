@@ -8,7 +8,7 @@ http_interactions:
       string: email=john%40doe.net&password=asimplepassword
     headers:
       User-Agent:
-      - Faraday v1.10.3
+      - Faraday v1.10.5
       Accept:
       - application/json
       Content-Type:
@@ -25,18 +25,18 @@ http_interactions:
       cache-control:
       - no-cache
       x-request-id:
-      - bd2f9a84-1266-4f40-bb2e-b8347b146f0f
+      - b54754fc-d59e-4b2e-af2e-6a9ae6fb17b1
       x-runtime:
-      - '0.265064'
+      - '0.068554'
       server-timing:
-      - endpoint_run_filters.grape;dur=0.06, endpoint_run_validators.grape;dur=0.14,
-        endpoint_render.grape;dur=47.62, endpoint_run.grape;dur=52.07
-      Content-Length:
+      - endpoint_run_filters.grape;dur=0.01, endpoint_run_validators.grape;dur=2.48,
+        endpoint_render.grape;dur=24.81, endpoint_run.grape;dur=31.89
+      content-length:
       - '40'
     body:
       encoding: UTF-8
       string: '{"message":"Invalid email or password."}'
-  recorded_at: Sat, 02 Dec 2023 14:23:31 GMT
+  recorded_at: Wed, 10 Jun 2026 08:25:09 GMT
 - request:
     method: post
     uri: http://localhost:3000/locomotive/api/v3/my_account.json
@@ -45,7 +45,7 @@ http_interactions:
       string: account%5Bemail%5D=john%40doe.net&account%5Bname%5D=John&account%5Bpassword%5D=asimplepassword
     headers:
       User-Agent:
-      - Faraday v1.10.3
+      - Faraday v1.10.5
       Accept:
       - application/json
       Content-Type:
@@ -58,22 +58,22 @@ http_interactions:
       content-type:
       - application/json
       etag:
-      - W/"215416b2e8a54271698972a3eaa0252e"
+      - W/"8d821154df1fa5aa27902d14c3c7263d"
       cache-control:
       - max-age=0, private, must-revalidate
       x-request-id:
-      - cdca5ed6-c9ad-4cd6-ab95-7e02b1d1ae5b
+      - 1fc34b7f-85b4-4392-a2cf-2068d00ded02
       x-runtime:
-      - '0.158947'
+      - '0.086313'
       server-timing:
-      - endpoint_run_filters.grape;dur=0.03, endpoint_run_validators.grape;dur=0.17,
-        endpoint_render.grape;dur=55.23, endpoint_run.grape;dur=56.00, format_response.grape;dur=58.68
-      Content-Length:
+      - endpoint_run_filters.grape;dur=0.01, endpoint_run_validators.grape;dur=0.21,
+        endpoint_render.grape;dur=66.19, endpoint_run.grape;dur=66.62, format_response.grape;dur=4.12
+      content-length:
       - '250'
     body:
       encoding: UTF-8
-      string: '{"_id":"656b3de3cb29bcc42bb756db","created_at":"2023-12-02T14:23:31Z","updated_at":"2023-12-02T14:23:31Z","name":"John","email":"john@doe.net","locale":"en","api_key":"bfc28e3e11dcec5ca2d761350145d1d2e6c37821","super_admin":false,"local_admin":false}'
-  recorded_at: Sat, 02 Dec 2023 14:23:31 GMT
+      string: '{"_id":"6a291f65e36602e223e77e76","created_at":"2026-06-10T08:25:09Z","updated_at":"2026-06-10T08:25:09Z","name":"John","email":"john@doe.net","locale":"en","api_key":"0000000000000000000000000000000000000000","super_admin":false,"local_admin":false}'
+  recorded_at: Wed, 10 Jun 2026 08:25:09 GMT
 - request:
     method: post
     uri: http://localhost:3000/locomotive/api/v3/tokens.json
@@ -82,7 +82,7 @@ http_interactions:
       string: email=admin%40locomotivecms.com&password=locomotive
     headers:
       User-Agent:
-      - Faraday v1.10.3
+      - Faraday v1.10.5
       Accept:
       - application/json
       Content-Type:
@@ -95,37 +95,37 @@ http_interactions:
       content-type:
       - application/json
       etag:
-      - W/"bee4bab5e9047bf81251ad045702fbae"
+      - W/"dc98ec85a48c13996c2ae340506ace0c"
       cache-control:
       - max-age=0, private, must-revalidate
       x-request-id:
-      - c2b01913-8f76-4e31-9890-a85c710ad489
+      - 6c55d70d-3d9a-480c-b8ab-bb941519f9fc
       x-runtime:
-      - '0.033631'
+      - '0.015188'
       server-timing:
-      - endpoint_run_filters.grape;dur=0.02, endpoint_run_validators.grape;dur=0.10,
-        endpoint_render.grape;dur=3.98, endpoint_run.grape;dur=4.46, format_response.grape;dur=0.04
-      Content-Length:
+      - endpoint_run_filters.grape;dur=0.01, endpoint_run_validators.grape;dur=0.07,
+        endpoint_render.grape;dur=2.68, endpoint_run.grape;dur=2.90, format_response.grape;dur=0.02
+      content-length:
       - '32'
     body:
       encoding: UTF-8
-      string: '{"token":"qgGJP-33qtaimkbS9zW6"}'
-  recorded_at: Sat, 02 Dec 2023 14:23:31 GMT
+      string: '{"token":"sq7bS1Xj2D19PhtVQBWS"}'
+  recorded_at: Wed, 10 Jun 2026 08:25:09 GMT
 - request:
     method: get
-    uri: http://localhost:3000/locomotive/api/v3/my_account.json?auth_token=qgGJP-33qtaimkbS9zW6
+    uri: http://localhost:3000/locomotive/api/v3/my_account.json?auth_token=sq7bS1Xj2D19PhtVQBWS
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v1.10.3
+      - Faraday v1.10.5
       Accept:
       - application/json
       X-Locomotive-Account-Email:
       - admin@locomotivecms.com
       X-Locomotive-Account-Token:
-      - qgGJP-33qtaimkbS9zW6
+      - sq7bS1Xj2D19PhtVQBWS
   response:
     status:
       code: 200
@@ -134,37 +134,37 @@ http_interactions:
       content-type:
       - application/json
       etag:
-      - W/"949fddbd52a043030fe293f1cd4c93c7"
+      - W/"817cfdfcaefcfc98348cac1febd874b2"
       cache-control:
       - max-age=0, private, must-revalidate
       x-request-id:
-      - 03fcc201-00a7-4715-bbf5-d4782f533e6d
+      - 3541a1ae-265b-43e6-86be-bbdd5c42c984
       x-runtime:
-      - '0.035377'
+      - '0.018372'
       server-timing:
-      - endpoint_run_filters.grape;dur=0.02, endpoint_run_validators.grape;dur=0.00,
-        endpoint_render.grape;dur=3.19, endpoint_run.grape;dur=3.47, format_response.grape;dur=2.43
-      Content-Length:
-      - '260'
+      - endpoint_run_filters.grape;dur=0.01, endpoint_run_validators.grape;dur=0.02,
+        endpoint_render.grape;dur=1.83, endpoint_run.grape;dur=1.95, format_response.grape;dur=3.06
+      content-length:
+      - '256'
     body:
       encoding: UTF-8
-      string: '{"_id":"656b3dc2cb29bcc306a3cc33","created_at":"2023-12-02T14:22:58Z","updated_at":"2023-12-02T14:22:58Z","name":"Admin","email":"admin@locomotivecms.com","locale":"en","api_key":"d49cd50f6f0d2b163f48fc73cb249f0244c37074","super_admin":true,"local_admin":true}'
-  recorded_at: Sat, 02 Dec 2023 14:23:31 GMT
+      string: '{"_id":"6913c329e366020ae5f56204","created_at":"2025-11-11T23:13:45Z","updated_at":"2026-06-10T07:57:01Z","name":"Admin","email":"admin@locomotivecms.com","locale":"en","api_key":"d49cd50f6f0d2b163f48fc73cb249f0244c37074","super_admin":true,"local_admin":true}'
+  recorded_at: Wed, 10 Jun 2026 08:25:09 GMT
 - request:
     method: get
-    uri: http://localhost:3000/locomotive/api/v3/my_account.json?auth_token=qgGJP-33qtaimkbS9zW6
+    uri: http://localhost:3000/locomotive/api/v3/my_account.json?auth_token=sq7bS1Xj2D19PhtVQBWS
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v1.10.3
+      - Faraday v1.10.5
       Accept:
       - application/json
       X-Locomotive-Account-Email:
       - admin@locomotivecms.com
       X-Locomotive-Account-Token:
-      - qgGJP-33qtaimkbS9zW6
+      - sq7bS1Xj2D19PhtVQBWS
   response:
     status:
       code: 200
@@ -173,20 +173,20 @@ http_interactions:
       content-type:
       - application/json
       etag:
-      - W/"949fddbd52a043030fe293f1cd4c93c7"
+      - W/"817cfdfcaefcfc98348cac1febd874b2"
       cache-control:
       - max-age=0, private, must-revalidate
       x-request-id:
-      - 740f34e2-1082-4e67-aa54-0dc36958e11c
+      - aa4ccb76-9ac2-4db3-81b4-46987130b493
       x-runtime:
-      - '0.038115'
+      - '0.014900'
       server-timing:
-      - endpoint_run_filters.grape;dur=0.03, endpoint_run_validators.grape;dur=0.06,
-        endpoint_render.grape;dur=3.80, endpoint_run.grape;dur=4.26, format_response.grape;dur=2.87
-      Content-Length:
-      - '260'
+      - endpoint_run_filters.grape;dur=0.01, endpoint_run_validators.grape;dur=0.01,
+        endpoint_render.grape;dur=2.43, endpoint_run.grape;dur=2.59, format_response.grape;dur=1.63
+      content-length:
+      - '256'
     body:
       encoding: UTF-8
-      string: '{"_id":"656b3dc2cb29bcc306a3cc33","created_at":"2023-12-02T14:22:58Z","updated_at":"2023-12-02T14:22:58Z","name":"Admin","email":"admin@locomotivecms.com","locale":"en","api_key":"d49cd50f6f0d2b163f48fc73cb249f0244c37074","super_admin":true,"local_admin":true}'
-  recorded_at: Sat, 02 Dec 2023 14:23:31 GMT
-recorded_with: VCR 6.2.0
+      string: '{"_id":"6913c329e366020ae5f56204","created_at":"2025-11-11T23:13:45Z","updated_at":"2026-06-10T07:57:01Z","name":"Admin","email":"admin@locomotivecms.com","locale":"en","api_key":"d49cd50f6f0d2b163f48fc73cb249f0244c37074","super_admin":true,"local_admin":true}'
+  recorded_at: Wed, 10 Jun 2026 08:25:09 GMT
+recorded_with: VCR 6.4.0

@@ -67,12 +67,16 @@ module Locomotive
         include ToHashConcern
 
         def __attributes__
-          %i(name)
+          %i(name position)
         end
 
         def name
           translations = __getobj__.name.translations
           translations.empty? ? translations[:any] : translations
+        end
+
+        def position
+          self[:position]
         end
 
       end

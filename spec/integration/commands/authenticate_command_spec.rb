@@ -32,7 +32,7 @@ describe Locomotive::Wagon::AuthenticateCommand do
       end
 
       it 'creates a new account and puts the auto-login information in the .netrc file' do
-        expect(netrc).to receive(:[]=).with('localhost:3000', ['john@doe.net', '42'])
+        expect(netrc).to receive(:[]=).with(TEST_PLATFORM_ALT_URL, ['john@doe.net', '42'])
         is_expected.to eq(true)
       end
 
@@ -49,7 +49,7 @@ describe Locomotive::Wagon::AuthenticateCommand do
       end
 
       it 'only puts the auto-login information in the .netrc file' do
-        expect(netrc).to receive(:[]=).with('localhost:3000', ['admin@locomotivecms.com', '42'])
+        expect(netrc).to receive(:[]=).with(TEST_PLATFORM_ALT_URL, [TEST_API_EMAIL, '42'])
         is_expected.to eq(true)
       end
 

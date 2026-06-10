@@ -6,13 +6,14 @@ module Locomotive
       include ToHashConcern
       include PersistAssetsConcern
 
-      attr_accessor :__base_path__, :__content_assets_pusher__
+      attr_accessor :__base_path__, :__content_assets_pusher__, :__persist_content__
 
       DEFAULT_ATTRIBUTES = %i(_slug seo_title meta_keywords meta_description).freeze
 
-      def initialize(object, locale = nil, base_path, content_assets_pusher)
+      def initialize(object, locale = nil, base_path, content_assets_pusher, persist_content: false)
         self.__base_path__ = base_path
         self.__content_assets_pusher__ = content_assets_pusher
+        self.__persist_content__ = persist_content
         super(object, locale, nil)
       end
 
@@ -62,14 +63,25 @@ module Locomotive
       alias :decorate_time_field :decorate_date_time_field
 
       def to_hash
-        if (hash = super).keys == DEFAULT_ATTRIBUTES
-          {}
-        else
-          hash
+        hash = super
+
+        # send the position only on a full-data push so a re-deploy can reorder the
+        # entries, while a back-office reordering stays untouched on a content push.
+        # added before the "empty entry" check so a minimal entry still carries its order.
+        # nil is skipped (keep the engine default), but 0 is a valid position.
+        if __persist_content__
+          position = _position
+          hash[:_position] = position unless position.nil?
         end
+
+        hash.keys == DEFAULT_ATTRIBUTES ? {} : hash
       end
 
       private
+
+      def _position
+        __getobj__[:_position]
+      end
 
       def fields
         __getobj__.content_type.fields

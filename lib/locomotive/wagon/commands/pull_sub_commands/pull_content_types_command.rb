@@ -39,7 +39,7 @@ module Locomotive::Wagon
     def select_options_yaml(options)
       return if options.blank?
 
-      ordered_options = options.sort { |option| option['position'] }
+      ordered_options = options.sort_by { |option| option['position'] }
 
       if locales.size > 1
         {}.tap do |_options|

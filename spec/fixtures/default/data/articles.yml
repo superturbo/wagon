@@ -1,0 +1,15 @@
+# en/fr titles diverge in sort order on purpose, so the localized order_by path
+# (paginate by default locale + fetch translations by id) is exercised:
+#   en order: Apple, Zulu      fr order: Alpha (Zulu), Zorro (Apple)
+- Apple:
+    title:
+      fr: Zorro
+    body:
+      en: first article
+      fr: premier article
+- Zulu:
+    title:
+      fr: Alpha
+    body:
+      en: second article
+      fr: deuxième article

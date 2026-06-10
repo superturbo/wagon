@@ -13,9 +13,9 @@ describe Locomotive::Wagon::DeleteCommand do
   let(:path)            { default_site_path }
   let(:shell)           { Thor::Shell::Color.new }
   let(:options)         { { data: true, verbose: true } }
-  let(:api_uri)         { 'http://www.example.com:3000' }
+  let(:api_uri)         { 'http://localhost:3000' }
   let(:api_credentials) { { email: TEST_API_EMAIL, api_key: TEST_API_KEY } }
-  let(:client_api)      { Locomotive::Coal::Client.new(api_uri, api_credentials, handle: 'www') }
+  let(:client_api)      { Locomotive::Coal::Client.new(api_uri, api_credentials, handle: 'wagon-test') }
 
   before do
     allow_any_instance_of(described_class).to receive(:read_deploy_settings).and_return({})
