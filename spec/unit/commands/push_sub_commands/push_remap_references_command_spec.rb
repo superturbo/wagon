@@ -95,6 +95,20 @@ describe Locomotive::Wagon::PushRemapReferencesCommand do
       it { is_expected.to eq({}) }
     end
 
+    context 'data already synced from this instance (id already equals the remote id)' do
+      let(:pages) { [page_double(new_page_id, new_page_id)] }
+
+      it 'records no identity mapping (nothing to remap)' do
+        is_expected.to eq({})
+      end
+    end
+
+    context 'an identity id that only differs by case' do
+      let(:pages) { [page_double(new_page_id.upcase, new_page_id)] }
+
+      it { is_expected.to eq({}) }
+    end
+
   end
 
   describe '#push with an empty mapping (a regular, non-migrated deploy)' do

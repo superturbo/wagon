@@ -186,7 +186,13 @@ module Locomotive::Wagon
     def record(mapping, old_id, new_id)
       return unless old_id.is_a?(String) && old_id =~ OBJECT_ID_REGEXP && !new_id.nil?
 
-      mapping[old_id.downcase] = new_id
+      old_id = old_id.downcase
+
+      # already pointing at this instance (e.g. re-deploying data synced from it):
+      # nothing to remap, and an identity entry would inflate the "remapping N" count
+      return if old_id == new_id.to_s.downcase
+
+      mapping[old_id] = new_id
     end
 
     def resource?(name)
