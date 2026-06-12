@@ -9,6 +9,12 @@ module Locomotive::Wagon
         log "We created your site with the following handle: #{event.payload[:site].handle}", { mode: :bold }
       end
 
+      subscribe 'remap_started' do |event|
+        count  = event.payload[:count]
+        prefix = event.payload[:edited] ? '' : 'New site detected — '
+        log "#{prefix}remapping #{count} internal reference(s) from the previous instance", { mode: :bold }
+      end
+
       subscribe :start do |event|
         log "\n"
         log "Pushing #{event.payload[:name].camelcase}", { color: :black, background: :white }

@@ -70,6 +70,18 @@ module Locomotive::Wagon
       @with_data = true
     end
 
+    # locales in which the decorated entity exists (has a slug); yields inside each
+    # locale scope. shared by the pages push and the reference remap (both page-based).
+    def translated_in(decorated_entity, &block)
+      locales.find_all do |locale|
+        decorated_entity.__with_locale__(locale) do
+          decorated_entity.slug.present?.tap do |present|
+            yield(locale) if block_given? && present
+          end
+        end
+      end
+    end
+
     def with_data?
       !!@with_data
     end

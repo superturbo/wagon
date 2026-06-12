@@ -189,4 +189,41 @@ http_interactions:
       encoding: UTF-8
       string: '{"_id":"6913c329e366020ae5f56204","created_at":"2025-11-11T23:13:45Z","updated_at":"2026-06-10T07:57:01Z","name":"Admin","email":"admin@locomotivecms.com","locale":"en","api_key":"d49cd50f6f0d2b163f48fc73cb249f0244c37074","super_admin":true,"local_admin":true}'
   recorded_at: Wed, 10 Jun 2026 08:25:09 GMT
+- request:
+    method: post
+    uri: http://localhost:3000/locomotive/api/v3/tokens.json
+    body:
+      encoding: UTF-8
+      string: email=admin%40locomotivecms.com&password=locomotive
+    headers:
+      User-Agent:
+      - Faraday v1.10.5
+      Accept:
+      - application/json
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      content-type:
+      - application/json
+      x-error-detail:
+      - Invalid email or password.
+      cache-control:
+      - no-cache
+      x-request-id:
+      - 0bc6442e-f9ac-449f-9331-b11e39ba7346
+      x-runtime:
+      - '0.049163'
+      server-timing:
+      - endpoint_run_filters.grape;dur=0.01, endpoint_run_validators.grape;dur=0.94,
+        endpoint_render.grape;dur=7.11, endpoint_run.grape;dur=9.31
+      content-length:
+      - '40'
+    body:
+      encoding: UTF-8
+      string: '{"message":"Invalid email or password."}'
+  recorded_at: Thu, 11 Jun 2026 08:34:55 GMT
 recorded_with: VCR 6.4.0

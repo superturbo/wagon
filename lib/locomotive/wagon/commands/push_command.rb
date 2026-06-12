@@ -47,8 +47,12 @@ module Locomotive::Wagon
       end
 
       if options[:verbose]
-        PushLogger.new
-        _push(api_client)
+        logger = PushLogger.new
+        begin
+          _push(api_client)
+        ensure
+          logger.detach
+        end
       else
         show_wait_spinner('Deploying...') { _push(api_client) }
       end
@@ -66,6 +70,15 @@ module Locomotive::Wagon
           pusher.with_data if options[:data]
           pusher.only(options[:filter]) unless options[:filter].blank?
         end
+      end
+
+      # a site migrated from another instance carries stale ids inside its internal
+      # references; now that everything is pushed (new ids known), rewrite them.
+      # No-op when the deployed data has no stale ids (a regular deploy).
+      PushRemapReferencesCommand.push(api_client, steam_services, content_assets_pusher, remote_site) do |pusher|
+        pusher.with_data if options[:data]
+        pusher.for_resources(options[:resources])
+        pusher.only(options[:filter]) unless options[:filter].blank?
       end
 
       print_result_message

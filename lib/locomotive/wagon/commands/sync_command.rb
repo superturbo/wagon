@@ -28,8 +28,12 @@ module Locomotive::Wagon
 
     def sync
       if options[:verbose]
-        SyncLogger.new
-        _sync
+        logger = SyncLogger.new
+        begin
+          _sync
+        ensure
+          logger.detach
+        end
       else
         show_wait_spinner('Syncing content...') { _sync }
       end

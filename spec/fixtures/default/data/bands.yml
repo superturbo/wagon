@@ -1,4 +1,7 @@
 - Pearl Jam:
+    # id from the previous instance (as written by wagon sync) - exercises the
+    # reference remapping done by the final deploy pass
+    _id: ['656b3de3cb29bcc42bb756db', 'pearl-jam']
     leader: Eddie
     kind: grunge
     featured: false

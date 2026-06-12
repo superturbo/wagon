@@ -2,7 +2,9 @@
     title:
       fr: "Mise a jour #6"
     text:
-      en: john posted a new post
+      # references ids from the previous instance: a raw entry id and an encoded
+      # RTE page link - both must be remapped by the final deploy pass
+      en: 'john posted a new post about band 656b3de3cb29bcc42bb756db <a href="https://old.example.com/_locomotive-link/eyJ0eXBlIjoicGFnZSIsInZhbHVlIjoiNjU2YjNkZTNjYjI5YmNjNDJiYjc1NmRjIiwibG9jYWxlIjoiZW4iLCJuZXdfd2luZG93IjpmYWxzZX0=">link</a>'
       fr: phrase FR
     date: 2009/11/16
     category: General

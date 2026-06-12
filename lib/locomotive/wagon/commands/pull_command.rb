@@ -26,8 +26,12 @@ module Locomotive::Wagon
 
     def pull
       if options[:verbose]
-        PullLogger.new
-        _pull
+        logger = PullLogger.new
+        begin
+          _pull
+        ensure
+          logger.detach
+        end
       else
         show_wait_spinner('Pulling...') { _pull }
       end

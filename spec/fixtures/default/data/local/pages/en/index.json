@@ -1,0 +1,19 @@
+{
+  "id": "656b3de3cb29bcc42bb756dc",
+  "title": "Home page",
+  "slug": "index",
+  "listed": true,
+  "published": true,
+  "fullpath": "index",
+  "sections_content": {
+    "header": {
+      "settings": {
+        "link": {
+          "type": "page",
+          "value": "656b3de3cb29bcc42bb756dc",
+          "new_window": false
+        }
+      }
+    }
+  }
+}

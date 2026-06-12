@@ -22,7 +22,9 @@ module Locomotive::Wagon
         remote_entities[decorated_entity.filename] = _entity
       else
         unless same?(decorated_entity, _entity)
-          api_client.content_assets.update(_entity._id, decorated_entity.to_hash)
+          # refresh the cache with the updated entity (new checksum + url) so the same
+          # asset, persisted again later (e.g. the reference remap pass), is a no-op
+          _entity = remote_entities[decorated_entity.filename] = api_client.content_assets.update(_entity._id, decorated_entity.to_hash)
         end
       end
 

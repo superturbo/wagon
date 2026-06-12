@@ -107,16 +107,6 @@ module Locomotive::Wagon
       end
     end
 
-    def translated_in(decorated_entity, &block)
-      locales.find_all do |locale|
-        decorated_entity.__with_locale__(locale) do
-          decorated_entity.slug.present?.tap do |present|
-            yield(locale) if block_given? && present
-          end
-        end
-      end
-    end
-
     def skip?(entity)
       # not deployable?
       return true if entity[:deployable] == false
