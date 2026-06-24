@@ -111,13 +111,37 @@ describe Locomotive::Wagon::PushRemapReferencesCommand do
 
   end
 
-  describe '#push with an empty mapping (a regular, non-migrated deploy)' do
+  describe '#push' do
 
-    it 'does nothing: no notifications, no API calls' do
-      expect(command).not_to receive(:_push_with_timezone)
-      expect(ActiveSupport::Notifications).not_to receive(:instrument)
+    context 'with -d but an empty mapping (a non-migrated deploy)' do
 
-      command.push
+      it 'does nothing: no notifications, no API calls' do
+        command.with_data
+        expect(command).not_to receive(:_push_with_timezone)
+        expect(ActiveSupport::Notifications).not_to receive(:instrument)
+
+        command.push
+      end
+
+    end
+
+    # regression: a default deploy (no -d) must not remap anything. remap only rewrites
+    # back-office content (which needs -d), so the command has to short-circuit before
+    # building reference_mapping — otherwise it loads/decorates pages, which needs a time
+    # zone and used to crash e.g. `wagon deploy -r content_types`.
+    context 'without -d, even when stale ids are present' do
+
+      let(:pages) { [page_double(old_page_id, new_page_id)] }
+
+      it 'is a strict no-op: no mapping built, no pages loaded, no push' do
+        expect(command).not_to receive(:reference_mapping)
+        expect(command).not_to receive(:_push_with_timezone)
+        expect(page_repository).not_to receive(:all)
+        expect(Locomotive::Wagon::PageDecorator).not_to receive(:new)
+
+        command.push
+      end
+
     end
 
   end

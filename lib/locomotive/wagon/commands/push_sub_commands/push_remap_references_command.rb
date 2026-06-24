@@ -15,6 +15,9 @@ module Locomotive::Wagon
     end
 
     def push
+      # Reference remap is data-only; require -d.
+      return unless remappable_resources?
+
       # a regular (non-migrated) deploy carries no old ids: stay a strict no-op
       return if reference_mapping.empty?
 
@@ -197,6 +200,10 @@ module Locomotive::Wagon
 
     def resource?(name)
       @resources.blank? || @resources.include?(name)
+    end
+
+    def remappable_resources?
+      with_data? && (resource?('site') || resource?('pages') || resource?('content_entries'))
     end
 
     def each_content_entry(&block)
