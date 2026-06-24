@@ -47,13 +47,18 @@ module Locomotive::Wagon
     private
 
     def sections_content(page)
-      return {} if page.sections_content.blank?
-      JSON.parse(page.sections_content)
+      section_json_attribute(page, 'sections_content', {})
     end
 
     def sections_dropzone_content(page)
-      return [] if page.sections_dropzone_content.blank?
-      JSON.parse(page.sections_dropzone_content)
+      section_json_attribute(page, 'sections_dropzone_content', [])
+    end
+
+    def section_json_attribute(page, name, default)
+      # Old engines omit section keys.
+      raw = page.attributes[name]
+      return default if raw.blank?
+      JSON.parse(raw)
     end
 
     def editable_elements_attributes(page)
